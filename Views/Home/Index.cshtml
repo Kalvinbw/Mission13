@@ -4,44 +4,58 @@
 
 @model List<Bowler>
 
-<h1>
-    Bowlers
-</h1>
 
-<a class="btn btn-primary" asp-controller="Home" asp-action="BowlerForm">Add Bowler</a>
-<br />
 
-<table class="table table-bordered table-striped">
+<div class="row m-1 p1">
+    <div class="col-3" id="teams">
+        <h2>Teams</h2>
+        <vc:teams></vc:teams>
+    </div>
 
-    <thead>
-        <tr>
-            <th>First Name</th>
-            <th>Middle Initial</th>
-            <th>Last Name</th>
-            <th>Address</th>
-            <th>City</th>
-            <th>State</th>
-            <th>Zip</th>
-            <th>Phone Number</th>
-        </tr>
-    </thead>
+    <main class="col-9">
+        <h1>
+            Bowlers
+        </h1>
 
-    <tbody>
-        @foreach (var b in Model)
-        {
-        <tr>
-            <td>@b.BowlerFirstName</td>
-            <td>@b.BowlerMiddleInit</td>
-            <td>@b.BowlerLastName</td>
-            <td>@b.BowlerAddress</td>
-            <td>@b.BowlerCity</td>
-            <td>@b.BowlerState</td>
-            <td>@b.BowlerZip</td>
-            <td>@b.BowlerPhoneNumber</td>
-            <td><button class="btn btn-secondary">Edit</button></td>
-            <td><button class="btn btn-danger">Delete</button></td>
-        </tr>
-        }
-    </tbody>
 
-</table>
+        <a class="btn btn-primary" asp-controller="Home" asp-action="BowlerForm">Add Bowler</a>
+        <br />
+        <div>
+            <table class="table table-bordered table-striped">
+
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Middle Initial</th>
+                        <th>Last Name</th>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Zip</th>
+                        <th>Phone Number</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var b in Model)
+                    {
+                        <tr>
+                            <td>@b.BowlerFirstName</td>
+                            <td>@b.BowlerMiddleInit</td>
+                            <td>@b.BowlerLastName</td>
+                            <td>@b.BowlerAddress</td>
+                            <td>@b.BowlerCity</td>
+                            <td>@b.BowlerState</td>
+                            <td>@b.BowlerZip</td>
+                            <td>@b.BowlerPhoneNumber</td>
+                            <td> <a class="btn btn-primary" asp-controller="Home" asp-action="Edit" asp-route-id="@b.BowlerID">Edit</a></td>
+                            <td><a class="btn btn-danger" asp-controller="Home" asp-action="Delete" asp-route-id="@b.BowlerID">Delete</a></td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </main>
+</div>
+

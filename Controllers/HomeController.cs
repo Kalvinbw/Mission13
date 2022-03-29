@@ -20,16 +20,78 @@ namespace Mission13.Controllers
             _repo = temp;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? teamID)
         {
-            var bowlers = _repo.Bowlers.ToList();
-
-            return View(bowlers);
+            if (teamID == null)
+            {
+                var bowlers = _repo.Bowlers
+                    .OrderBy(x => x.BowlerFirstName)
+                    .ToList();
+                return View(bowlers);
+            }
+            else
+            {
+                var bowlers = _repo.Bowlers
+                    .Where(x => x.TeamID == teamID)
+                    .OrderBy(x => x.BowlerFirstName)
+                    .ToList();
+                return View(bowlers);
+            }
         }
 
+        [HttpGet]
         public IActionResult BowlerForm()
         {
+            ViewBag.teams = _repo.Teams.Distinct().ToList();
+
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult BowlerForm(Bowler b)
+        {
+            if (ModelState.IsValid)
+            {
+                _repo.Add(b);
+            }
+            else
+            {
+                return View("BowlerForm");
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            ViewBag.teams = _repo.Teams.Distinct().ToList();
+
+            var bowler = _repo.Bowlers.Single(x => x.BowlerID == id);
+
+            return View("BowlerForm", bowler);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Bowler b)
+        {
+            _repo.Edit(b);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var bowler = _repo.Bowlers.Single(x => x.BowlerID == id);
+
+            return View(bowler);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(Bowler b)
+        {
+            _repo.Delete(b);
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult Privacy()
