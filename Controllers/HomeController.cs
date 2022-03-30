@@ -50,14 +50,8 @@ namespace Mission13.Controllers
         [HttpPost]
         public IActionResult BowlerForm(Bowler b)
         {
-            if (ModelState.IsValid)
-            {
-                _repo.Add(b);
-            }
-            else
-            {
-                return View("BowlerForm");
-            }
+            b.BowlerID = _repo.Bowlers.ToList().LastOrDefault().BowlerID + 1;
+            _repo.Add(b);
             return RedirectToAction("Index");
         }
 
@@ -73,7 +67,7 @@ namespace Mission13.Controllers
 
         [HttpPost]
         public IActionResult Edit(Bowler b)
-        {
+        {            
             _repo.Edit(b);
             return RedirectToAction("Index");
         }
